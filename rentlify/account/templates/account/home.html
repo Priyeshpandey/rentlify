@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentlify Home</title>
+</head>
+<body>
+    <h1>Welcome to Rentlify</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}</p>
+        {% if user.account_type == 'admin' %}
+            <p><a href="{% url 'buyer' %}">Buyer View</a></p>
+            <p><a href="{% url 'seller' %}">Seller View</a></p>
+        {% endif %}
+        {% if user.account_type == 'buyer' %}
+            <p><a href="{% url 'buyer' %}">Buyer View</a></p>
+        {% endif %}
+        {% if user.account_type == 'seller' %}
+            <p><a href="{% url 'seller' %}">Seller View</a></p>
+        {% endif %}
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a></p>
+        <p><a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+</body>
+</html>
